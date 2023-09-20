@@ -361,6 +361,9 @@ module.exports = {
   hasPermission: function hasPermission(successCallback, errorCallback) {
     exec(successCallback, errorCallback, 'PushNotification', 'hasPermission', []);
   },
+  requestPermission: (successCallback, errorCallback) => {
+    exec(successCallback, errorCallback, 'PushNotification', 'requestPermission', []);
+  },
   createChannel: function createChannel(successCallback, errorCallback, channel) {
     exec(successCallback, errorCallback, 'PushNotification', 'createChannel', [channel]);
   },

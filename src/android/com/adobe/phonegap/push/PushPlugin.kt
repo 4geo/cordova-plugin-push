@@ -407,6 +407,7 @@ class PushPlugin : CordovaPlugin() {
       PushConstants.UNREGISTER -> executeActionUnregister(data, callbackContext)
       PushConstants.FINISH -> callbackContext.success()
       PushConstants.HAS_PERMISSION -> executeActionHasPermission(callbackContext)
+      PushConstants.REQUEST_PERMISSION -> executeActionRequestPermission(callbackContext)
       PushConstants.SET_APPLICATION_ICON_BADGE_NUMBER -> executeActionSetIconBadgeNumber(
         data, callbackContext
       )
@@ -679,6 +680,28 @@ class PushPlugin : CordovaPlugin() {
       } catch (e: JSONException) {
         callbackContext.error(e.message)
       }
+    }
+  }
+
+  private fun executeActionRequestPermission(callbackContext: CallbackContext) {
+    val plugin: CordovaPlugin = this
+    cordova.threadPool.execute {
+      try {
+        requestPermissions(plugin, PushConstants.POST_NOTIFICATIONS_PERMISSION_REQUEST_ID, arrayOf(PushConstants.POST_NOTIFICATIONS))
+        callbackContext.success()
+      } catch (e: UnknownError) {
+         callbackContext.error(e.message)
+      }
+    }
+  }
+
+  @Throws(Exception::class)
+  protected fun requestPermissions(plugin: CordovaPlugin, requestCode: Int, permissions: Array<String>) {
+    try {
+      val method = cordova::class.java.getMethod("requestPermissions", CordovaPlugin::class.java, Int::class.javaPrimitiveType, Array<String>::class.java)
+      method.invoke(cordova, plugin, requestCode, permissions)
+    } catch (e: NoSuchMethodException) {
+      throw Exception("requestPermissions() method not found in CordovaInterface implementation of Cordova v" + CordovaWebView.CORDOVA_VERSION)
     }
   }
 

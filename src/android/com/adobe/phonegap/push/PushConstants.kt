@@ -110,4 +110,7 @@ object PushConstants {
   const val CLEAR_NOTIFICATION: String = "clearNotification"
   const val MESSAGE_ID: String = "google.message_id"
   const val IS_ENABLED: String = "isEnabled"
+  const val REQUEST_PERMISSION: String = "requestPermission"
+  const val POST_NOTIFICATIONS: String = "android.permission.POST_NOTIFICATIONS"
+  const val  POST_NOTIFICATIONS_PERMISSION_REQUEST_ID: Int = 1
 }
